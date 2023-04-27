@@ -1,25 +1,24 @@
 import * as React from 'react';
-import {Box, Card, CardMedia, CardContent, Grid, CardActionArea, Typography} from "@mui/material";
+import { Card, CardMedia, CardContent, Grid, CardActionArea, Typography } from "@mui/material";
+import { PokemonItem } from "../../gql/graphql";
 
 interface Props {
-  pokemons: [];
+  pokemons: PokemonItem[];
 }
 
-// @ts-ignore
-export default function PokemonsList( { pokemons }) {
+export default function PokemonsList( { pokemons }: Props) {
   return (
     <Grid container spacing={2}>
-      {/* @ts-ignore */}
       {pokemons.map(pokemon => (
         <Grid item xs={2} key={pokemon.name}>
           <Card>
             <CardActionArea>
               <CardMedia
                 component="img"
-                image={pokemon.artwork}
+                image={pokemon.artwork ?? ''}
               />
               <CardContent>
-                <Typography variant="h5">
+                <Typography variant="h6">
                   {pokemon.name}
                 </Typography>
               </CardContent>
