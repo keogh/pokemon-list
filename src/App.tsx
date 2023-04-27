@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { useQuery , gql} from '@apollo/client';
+import PokemonsList from "./Components/PokemonsList";
 
 const GET_POKEMONS = gql`
   query pokemons($limit: Int, $offset: Int) {
@@ -15,6 +16,7 @@ const GET_POKEMONS = gql`
         url
         name
         image
+        artwork
       }
     }
   }
@@ -23,19 +25,16 @@ const GET_POKEMONS = gql`
 function App() {
   const { loading, error, data } = useQuery(GET_POKEMONS, {
     variables: {
-      limit: 2,
-      offset: 1,
+      limit: 12,
+      offset: 0,
     },
   });
 
   if (loading) return <>'Loading...'</>;
   if (error) return <>`Error! ${error.message}`</>;
 
-  console.log('Response from server', data);
   return (
-    <>
-    'Success!'
-    </>
+   <PokemonsList pokemons={data.pokemons.results} />
   );
 }
 
