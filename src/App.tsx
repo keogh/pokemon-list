@@ -4,6 +4,7 @@ import { useQuery , gql} from '@apollo/client';
 import PokemonsList from "./Components/PokemonsList";
 import Pagination from "./Components/Pagination/Pagination";
 import {useLocation} from "react-router-dom";
+import {AppBar, Toolbar, Typography} from "@mui/material";
 
 const GET_POKEMONS = gql`
   query pokemons($limit: Int, $offset: Int) {
@@ -46,6 +47,14 @@ function App() {
 
   return (
     <>
+      <AppBar position="static" color="secondary">
+        <Toolbar>
+          <Typography variant="h6" component="div">
+            Pokemon List
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
       <PokemonsList pokemons={data.pokemons.results} />
       <Pagination page={page} count={numPages} />
     </>
