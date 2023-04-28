@@ -1,11 +1,7 @@
 import React from 'react';
 import './App.css';
 import { useQuery , gql} from '@apollo/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import Root from './Components/Root';
+import PokemonsList from "./Components/PokemonsList";
 
 const GET_POKEMONS = gql`
   query pokemons($limit: Int, $offset: Int) {
@@ -36,16 +32,9 @@ function App() {
   if (loading) return <>'Loading...'</>;
   if (error) return <>`Error! ${error.message}`</>;
 
-  // TODO: use router loader
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Root pokemons={data.pokemons.results} />
-    }
-  ]);
 
   return (
-    <RouterProvider router={router} />
+    <PokemonsList pokemons={data.pokemons.results} />
   );
 }
 
