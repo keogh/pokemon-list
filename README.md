@@ -10,6 +10,6 @@ The following tech stack is used:
 * MaterialUI
 
 
-## Demo
+## Video Demo
 
 https://drive.google.com/file/d/1bszjKxij98CAZ645FkI9tHGt4m229H67/view?usp=sharing
