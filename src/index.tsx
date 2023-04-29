@@ -3,16 +3,20 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import {
-  createBrowserRouter,
+  createBrowserRouter, Navigate,
   RouterProvider,
 } from "react-router-dom";
 
 const router = createBrowserRouter([
   {
+    path: "/pokemon",
+    element: <App />,
+  },
+  {
     path: "/",
-    element: <App />
+    element: <Navigate to="/pokemon" replace />
   }
 ]);
 

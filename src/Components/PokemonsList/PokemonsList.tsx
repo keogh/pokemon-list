@@ -1,29 +1,21 @@
 import * as React from 'react';
-import { Card, CardMedia, CardContent, Grid, CardActionArea, Typography } from "@mui/material";
-import { PokemonItem } from "../../gql/graphql";
+import { Grid } from "@mui/material";
+import type { PokemonItem } from "../../gql/graphql";
+import PokemonCard from "../../PokemonCard/PokemonCard";
 
 interface Props {
   pokemons: PokemonItem[];
+
+  // TODO: Move to Context
+  onClickItem: (pokemon: PokemonItem) => void;
 }
 
-export default function PokemonsList( { pokemons }: Props) {
+export default function PokemonsList( { pokemons, onClickItem }: Props) {
   return (
     <Grid container spacing={2}>
       {pokemons.map(pokemon => (
         <Grid item xs={2} key={pokemon.name}>
-          <Card>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                image={pokemon.artwork ?? ''}
-              />
-              <CardContent>
-                <Typography variant="h6">
-                  {pokemon.name}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
+          <PokemonCard pokemon={pokemon} onClick={onClickItem} />
         </Grid>
       ))}
     </Grid>

@@ -1,37 +1,28 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import './App.css';
-import { useQuery , gql} from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import PokemonsList from "./Components/PokemonsList";
 import Pagination from "./Components/Pagination/Pagination";
 import {useLocation} from "react-router-dom";
 import {AppBar, Toolbar, Typography} from "@mui/material";
-
-const GET_POKEMONS = gql`
-  query pokemons($limit: Int, $offset: Int) {
-    pokemons(limit: $limit, offset: $offset) {
-      count
-      next
-      previous
-      status
-      message
-      results {
-        url
-        name
-        image
-        artwork
-      }
-    }
-  }
-`;
+import PokemonDetailsDialog from "./Components/PokemonDetailsDialog";
+import parsePaginationFromLocation from "./utils/parsePaginationFromLocation";
+import { GET_POKEMONS } from "./queries/pokemon";
+import type {PokemonItem} from "./gql/graphql";
 
 function App() {
-  const location = useLocation();
-  const query = new URLSearchParams(location.search);
-  const page = parseInt(query.get('page') || '1', 10);
-  const itemsPerPage = 24;
-  const offset = itemsPerPage * (page - 1);
+  const [isPokemonDetailsOpen, setIsPokemonDetailsOpen] = useState(false);
+  const [selectedPokemon, setSelectedPokemon] = useState<PokemonItem>();
 
-  // TODO: maybe use router loader
+  const location = useLocation();
+  const { page, itemsPerPage, offset } = parsePaginationFromLocation(location);
+
+  const handleClickItem = useCallback((pokemon: PokemonItem) => {
+    setSelectedPokemon(pokemon);
+    setIsPokemonDetailsOpen(true)
+  }, []);
+  const handleClose = useCallback(() => setIsPokemonDetailsOpen(false), []);
+
   const { loading, error, data } = useQuery(GET_POKEMONS, {
     variables: {
       limit: itemsPerPage,
@@ -44,7 +35,6 @@ function App() {
 
   const numPages = Math.ceil(data.pokemons.count / itemsPerPage);
 
-
   return (
     <>
       <AppBar position="static" color="secondary">
@@ -55,8 +45,16 @@ function App() {
         </Toolbar>
       </AppBar>
 
-      <PokemonsList pokemons={data.pokemons.results} />
+      <PokemonsList pokemons={data.pokemons.results} onClickItem={handleClickItem} />
       <Pagination page={page} count={numPages} />
+
+      {selectedPokemon && (
+        <PokemonDetailsDialog
+          open={isPokemonDetailsOpen}
+          onClose={handleClose}
+          pokemon={selectedPokemon}
+        />
+      )}
     </>
   );
 }
