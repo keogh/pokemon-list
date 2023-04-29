@@ -16,7 +16,7 @@ export default function Pagination({ page, count }: Props) {
       renderItem={(item) => (
         <PaginationItem
           component={Link}
-          to={`/${item.page === 1 ? '' : `?page=${item.page}`}`}
+          to={`/pokemon${item.page === 1 ? '' : `?page=${item.page}`}`}
           {...item}
         />
       )}

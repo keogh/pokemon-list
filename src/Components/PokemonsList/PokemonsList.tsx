@@ -14,7 +14,7 @@ export default function PokemonsList( { pokemons, onClickItem }: Props) {
   return (
     <Grid container spacing={2}>
       {pokemons.map(pokemon => (
-        <Grid item xs={2} key={pokemon.name}>
+        <Grid item lg={2} md={3} sm={4} key={pokemon.name}>
           <PokemonCard pokemon={pokemon} onClick={onClickItem} />
         </Grid>
       ))}

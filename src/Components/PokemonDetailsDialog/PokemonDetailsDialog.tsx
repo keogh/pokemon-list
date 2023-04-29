@@ -1,16 +1,22 @@
 import * as React from 'react';
 import {
+  Box,
   Card,
   CardContent,
   CardHeader,
   CardMedia, Chip,
-  Dialog, IconButton,
+  Dialog, Grid, IconButton,
   Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableRow,
 } from "@mui/material";
 import type {PokemonItem, Type} from "../../gql/graphql";
 import {useQuery} from "@apollo/client";
 import {GET_POKEMON} from "../../queries/pokemon";
 import CloseIcon from '@mui/icons-material/Close';
+
+const CardMediaStyles = {
+  minWidth: 470,
+  minHeight: 470,
+}
 
 interface Props {
   pokemon: PokemonItem;
@@ -37,7 +43,13 @@ export default function PokemonDetailsDialog({ pokemon, open, onClose }: Props) 
   if (loading) {
     return (
       <Dialog open={open}>
-        <Skeleton width={460} height={600} />
+        <Box>
+          <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
+          <Skeleton width={460} height={600} />
+          <Skeleton height={40} />
+          <Skeleton height={40} />
+          <Skeleton height={40} />
+        </Box>
       </Dialog>
     );
   }
@@ -45,7 +57,7 @@ export default function PokemonDetailsDialog({ pokemon, open, onClose }: Props) 
   const pokemonDetails = data.pokemon;
 
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onClose={onClose}>
       <Card>
         <CardHeader
           title={`#${pokemonDetails.order} - ${pokemon.name}`}
@@ -59,6 +71,7 @@ export default function PokemonDetailsDialog({ pokemon, open, onClose }: Props) 
           component="img"
           image={pokemon.artwork ?? ''}
           alt={`Pokemon ${pokemon.name}`}
+          sx={CardMediaStyles}
         />
         <CardContent>
           <TableContainer>
