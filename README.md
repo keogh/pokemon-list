@@ -9,6 +9,12 @@ The following tech stack is used:
 * ApolloClient
 * MaterialUI
 
+## Up and Running
+
+1. Clone the repository
+2. Install dependencies `npm install`
+3. Run local server `npm run start`
+4. Visit `localhost:3000`
 
 ## Video Demo
 

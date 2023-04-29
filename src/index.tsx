@@ -11,7 +11,7 @@ import {
 
 const router = createBrowserRouter([
   {
-    path: "/pokemon",
+    path: "/pokemon-list",
     element: <App />,
   },
   {
